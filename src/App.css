@@ -1,0 +1,46 @@
+
+.App {
+  text-align: center;
+  background-color: slategrey;
+  padding: 25px;
+}
+
+.title {
+  font-size: 1.75em;
+  color: white;
+  width: 75%;
+  margin-left: 100px;
+  text-shadow: 10px solid black;
+}
+
+.leagueTable {
+  background-color: white;
+  width: 75%;
+  align: center;
+  font-size: 20px;
+  border: 1px solid black;
+  text-align: center;
+  margin-left: 100px;
+
+}
+
+th {
+  padding: 5px;
+}
+
+td {
+  padding: 5px;
+}
+
+.ResultsForm {
+padding: 30px;
+}
+
+.fixture {
+  padding: 5px;
+}
+
+.homeGoals, .awayGoals {
+  padding: 5px;
+  margin: 5px;
+}
