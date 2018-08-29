@@ -1,7 +1,7 @@
 
 .App {
   text-align: center;
-  background-color: slategrey;
+  background-color: white;
   padding: 25px;
 }
 
@@ -43,4 +43,26 @@ padding: 30px;
 .homeGoals, .awayGoals {
   padding: 5px;
   margin: 5px;
+}
+
+.ReactTable {
+  padding-bottom: 50px;
+  margin: 20px;
+}
+
+.rows {
+  border: 2px solid black;
+}
+
+.rt-th {
+  background-color: #424954;
+  color: white;
+}
+
+.rt-tr {
+  background-color: #8eacdb;
+}
+
+.-odd {
+  background-color: red;
 }
