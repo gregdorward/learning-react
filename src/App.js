@@ -8,26 +8,44 @@ class App extends React.Component {
   constructor() {
     super();
 
-    function FootballTeam(name, played, wins, draws, losses) {
-      let points = (wins * 3) + draws;
+    function FootballTeam(name, played, wins, draws, losses, goalsFor, goalsAgainst, goalDifference) {
+      let points = 0;
       this.name = name;
       this.played = played;
       this.wins = wins;
       this.losses = losses;
       this.draws = draws
       this.points = points;
+      this.goalsFor = goalsFor;
+      this.goalsAgainst = goalsAgainst;
+      this.goalDifference= goalDifference;
     }
 
     let teams = [];
 
-    const team = new FootballTeam('Man U', 0, 0, 0, 0, 0);
-    const teamTwo = new FootballTeam('Man City', 0, 0, 0, 0, 0);
-    const teamThree = new FootballTeam('Liverpool', 0, 0, 0, 0, 0);
-    const teamFour = new FootballTeam('Chelsea', 0, 0, 0, 0, 0);
-    const teamFive = new FootballTeam('Arsenal', 0, 0, 0, 0, 0);
-    const teamSix = new FootballTeam('Tottenham', 0, 0, 0, 0, 0);
-    const teamSeven = new FootballTeam('Everton', 0, 0, 0, 0, 0);
-    teams.push(team, teamTwo, teamThree, teamFour, teamFive, teamSix, teamSeven);
+    const team = new FootballTeam('Man United', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamTwo = new FootballTeam('Man City', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamThree = new FootballTeam('Liverpool', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamFour = new FootballTeam('Chelsea', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamFive = new FootballTeam('Arsenal', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamSix = new FootballTeam('Tottenham', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamSeven = new FootballTeam('Burnley', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamEight = new FootballTeam('Southampton', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamNine = new FootballTeam('Cardiff', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamTen = new FootballTeam('Huddersfield', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamEleven = new FootballTeam('Wolves', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamTwelve = new FootballTeam('Fulham', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamThirteen = new FootballTeam('Watford', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamFourteen = new FootballTeam('Bournemouth', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamFifteen = new FootballTeam('Leicester', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamSixteen = new FootballTeam('Everton', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamSeventeen = new FootballTeam('Crystal Palace', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamEighteen = new FootballTeam('Brighton', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamNineteen = new FootballTeam('Newcastle', 0, 0, 0, 0, 0, 0, 0, 0);
+    const teamTwenty = new FootballTeam('West Ham', 0, 0, 0, 0, 0, 0, 0);
+
+    teams.push(team, teamTwo, teamThree, teamFour, teamFive, teamSix, teamSeven, teamEight, teamNine, teamTen, teamEleven, teamTwelve, teamThirteen, teamFourteen, teamFifteen, teamSixteen, teamSeventeen, teamEighteen, teamNineteen, teamTwenty);
+
 
     let randomisedFixtureList;
     function createFixtures(teams) {
@@ -91,11 +109,14 @@ class ResultsForm extends React.Component {
   determineResult(homeTeamName, awayTeamName, fixture) {
     let winner;
     let loser;
+    let homeGoals = fixture.homeGoals;
+    let awayGoals = fixture.awayGoals;
 
-    if(fixture.homeGoals > fixture.awayGoals){
+
+    if(homeGoals > awayGoals){
       winner = homeTeamName;
       loser = awayTeamName;
-    } else if (fixture.homeGoals < fixture.awayGoals) {
+    } else if (homeGoals < awayGoals) {
       winner = awayTeamName;
       loser = homeTeamName
     } else {
@@ -107,17 +128,31 @@ class ResultsForm extends React.Component {
       loser,
     }
     this.setState({result : result});
-    this.allocatePoints(winner, loser, homeTeamName, awayTeamName);
+    this.allocatePoints(winner, loser, homeTeamName, awayTeamName, homeGoals, awayGoals);
     return result;
   }
 
-  allocatePoints(winner, loser, homeTeamName, awayTeamName) {
+  allocatePoints(winner, loser, homeTeamName, awayTeamName, homeGoals, awayGoals) {
     let homeIndex = this.props.teams.map(function(e) { return e.name; }).indexOf(homeTeamName)
     let awayIndex = this.props.teams.map(function(e) { return e.name; }).indexOf(awayTeamName)
     let indexOfWinner = this.props.teams.map(function(e) { return e.name; }).indexOf(winner)
     let indexOfLoser = this.props.teams.map(function(e) { return e.name; }).indexOf(loser)
+    this.homeGoals = homeGoals.value;
+    this.awayGoals = awayGoals.value;
+    console.log(homeGoals);
+    console.log(awayGoals);
+
+
     this.props.teams[homeIndex].played += 1;
     this.props.teams[awayIndex].played += 1;
+    this.props.teams[homeIndex].goalsFor += parseInt(homeGoals);
+    this.props.teams[homeIndex].goalsAgainst += parseInt(awayGoals);
+    this.props.teams[awayIndex].goalsFor += parseInt(awayGoals);
+    this.props.teams[awayIndex].goalsAgainst += parseInt(homeGoals);
+    this.props.teams[homeIndex].goalDifference += (parseInt(homeGoals) - parseInt(awayGoals));
+    this.props.teams[awayIndex].goalDifference += (parseInt(awayGoals) - parseInt(homeGoals));
+
+
 
     if(winner === null) {
       this.props.teams[homeIndex].points += 1;
@@ -137,11 +172,12 @@ class ResultsForm extends React.Component {
         <div>
           <League teams={this.props.teams} />
         </div>
-        <div>
-          <Winner result = {this.state.result}/>
+        <div className="winnerContainer">
+          <Winner result = {this.state.result} />
         </div>
+        <div className="fixtureList">
         {this.props.fixtures.map((fixture, i) =>
-          <form className={i} key={"fixture" + i} ref="fixture" onSubmit={this.showScore} name={`fixture-${i}`} >
+          <form className="fixture" key={"fixture" + i} ref="fixture" onSubmit={this.showScore} name={`fixture-${i}`} >
             <label>
               {homeTeamName = this.props.fixtures[i][0].name}:
               <input type="text"
@@ -160,9 +196,10 @@ class ResultsForm extends React.Component {
                 name={awayTeamName}
               />
             </label>
-            <input type="submit" value="Submit"/>
+            <input ref={btn => { this.btn = btn }} type="submit" value="Submit"/>
           </form>
         )}
+        </div>
       </div>
     );
   }
@@ -188,7 +225,7 @@ class Winner extends Component {
       }
       return (
         <div>
-          <p>
+          <p className="winner">
             {"The winner is " + winner}
           </p>
         </div>
@@ -208,6 +245,8 @@ class League extends React.Component {
     }
   }
 
+
+
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
     if (prevProps.teams !== this.props.teams) {
@@ -217,39 +256,62 @@ class League extends React.Component {
     }
   }
 
+
   render() {
+      let teamsArray = this.props.teams.sort
+      (
+        function (a, b) { return b.points - a.points || b.goalDifference - a.goalDifference}
+      );
+
     return (
-      <table className="leagueTable" key="leagueTable">
+      <div className="container">
+      <table key="leagueTable" className="item">
         <thead>
           <tr>
+            <th key="positionColumn">Position</th>
             <th key="nameColumn">Name</th>
             <th key="playedColumn">Played</th>
             <th key="winsColumn">Wins</th>
             <th key="lossesColumn">Losses</th>
             <th key="drawsColumn">Draws</th>
+            <th key="goalsForColumn">GF</th>
+            <th key="goalsAgainstColumn">GA</th>
+            <th key="goalDifferenceColumn">GD</th>
             <th key="pointsColumn">Points</th>
           </tr>
         </thead>
         <tbody>
-          {this.props.teams.map((team, i) =>
-            <tr className="rows">
-              <td className="Team Name" name="name" id={"name" + i} key={team.name + "name"}>
-                {this.props.teams[i].name}
+          {teamsArray.map((team, i) =>
+            <tr className={"row" + i}>
+              <td className="Position" name="position" id={"position" + i} key={team.name + "position"}>
+                {i + 1}
+              </td>
+              <td className="TeamName" name="name" id={"name" + i} key={team.name + "name"}>
+                {teamsArray[i].name}
               </td>
               <td className="Played" name="played" id={"played" + i} key={team.name + "played"}>
-                {this.props.teams[i].played}
+                {teamsArray[i].played}
               </td>
-              <td className="Team Wins" name="wins" id={"wins" + i} key={team.name + "wins"}>
-                {this.props.teams[i].wins}
+              <td className="TeamWins" name="wins" id={"wins" + i} key={team.name + "wins"}>
+                {teamsArray[i].wins}
               </td>
-              <td className="Team Losses" name="losses" id={"losses" + i} key={team.name + "losses"}>
-                {this.props.teams[i].losses}
+              <td className="TeamLosses" name="losses" id={"losses" + i} key={team.name + "losses"}>
+                {teamsArray[i].losses}
               </td>
-              <td className="Team Draws" name="draws" id={"draws" + i} key={team.name + "draws"}>
-                {this.props.teams[i].draws}
+              <td className="TeamDraws" name="draws" id={"draws" + i} key={team.name + "draws"}>
+                {teamsArray[i].draws}
               </td>
-              <td className="Team Points" name="points" id={"points" + i} key={team.points + "points"}>
-                {this.props.teams[i].points}
+              <td className="GoalsFor" name="for" id={"for" + i} key={team.name + "goalsFor"}>
+                {teamsArray[i].goalsFor}
+              </td>
+              <td className="GoalsAgainst" name="against" id={"against" + i} key={team.name + "goalsAgainst"}>
+                {teamsArray[i].goalsAgainst}
+              </td>
+              <td className="GoalDifference" name="difference" id={"difference" + i} key={team.name + "difference"}>
+                {teamsArray[i].goalDifference}
+              </td>
+              <td className="TeamPoints" name="points" id={"points" + i} key={team.points + "points"}>
+                {teamsArray[i].points}
               </td>
             </tr>
           )}
@@ -257,6 +319,7 @@ class League extends React.Component {
         <tfoot>
         </tfoot>
       </table>
+    </div>
     );
   }
 }
